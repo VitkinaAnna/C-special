@@ -12,27 +12,31 @@ def find_special_elements(matrix):
 
     return special_elements
 
-def find_min_special_element(matrix):
+def find_min_special_elements(matrix):
     special_elements = find_special_elements(matrix)
     if not special_elements:
-        return None, None, None, None
+        return []
 
-    min_element, min_row, min_col = min(special_elements, key=lambda x: (x[0], x[2]))
-    return min_element, min_row, min_col, min_col + 1
+    min_value = min(special_elements, key=lambda x: (x[0], x[2]))[0]
+    min_elements = [(value, row, col) for value, row, col in special_elements if value == min_value]
+    return min_elements
 
 # Приклад використання
 matrix = np.array([
     [10, 2, 3, 4],
     [5, 6, 7, 8],
-    [9, 100, 11, 12],
+    [9, 130, 11, 12],
     [130, 14, 15, 16]
 ])
 
-min_element, min_row, min_col, col_number = find_min_special_element(matrix)
+min_elements = find_min_special_elements(matrix)
 
-if min_element is not None:
-    print(f"Мінімальний С-особливий елемент: {min_element}")
-    print(f"Номер стовпця: {col_number}")
-    print(f"Індекси елемента: ({min_row+1}, {min_col+1})")
+if min_elements:
+    print("Мінімальні С-особливі елементи:")
+    for element in min_elements:
+        value, row, col = element
+        print(f"Елемент: {value}")
+        print(f"Номер стовпця: {col + 1}")
+        print(f"Індекси елемента: ({row + 1}, {col + 1})")
 else:
     print("таких нема!")
